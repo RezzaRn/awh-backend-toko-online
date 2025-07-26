@@ -29,6 +29,12 @@ class CreateOrdersTable extends Migration
                 'null' => false,
                 'default' => 0,
             ],
+            'payment_method' => [
+                'type' => 'varchar',
+                'constraint' => 20,
+                'null' => false,
+                'default' => 'cash',
+            ],
             'status' => [
                 'type' => 'enum',
                 'constraint' => ['pending', 'paid', 'cancelled'],

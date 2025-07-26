@@ -51,13 +51,18 @@ class OrdersModel extends Model
         try {
             $this->db->transBegin();
 
-            $this->db->table('orders')->insert([
+            $insertOrder = $this->db->table('orders')->insert([
                 'user_id' => $usersId,
                 'order_date' => date('Y-m-d H:i:s'),
-                'total' => 0,
+                'total' => 0.00,
                 'payment_method' => $paymentMethod,
                 'status' => 'pending'
             ]);
+
+            if (!$insertOrder) {
+                $error = $this->db->error();
+                throw new Exception('Failed to checkout: ' . $error['message'], 500);
+            }
 
             $ordersId = $this->db->insertID();
             $total = 0;
